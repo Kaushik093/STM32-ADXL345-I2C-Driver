@@ -39,13 +39,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   000017e9  00000000  00000000  0001144c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00053423  00000000  00000000  00012c35  2**0
+ 18 .debug_str    000533d3  00000000  00000000  00012c35  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  00066058  2**0
+ 19 .comment      00000043  00000000  00000000  00066008  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00000274  00000000  00000000  0006609c  2**2
+ 20 .debug_frame  00000274  00000000  00000000  0006604c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000073  00000000  00000000  00066310  2**0
+ 21 .debug_line_str 00000068  00000000  00000000  000662c0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -690,6 +690,7 @@ void adxl_write (uint8_t reg, char value)
 void i2c1_init(void) {
  8000844:	b480      	push	{r7}
  8000846:	af00      	add	r7, sp, #0
+
     // Enable clock for GPIOB
     RCC->AHB1ENR |= GPIOBCLK_EN;
  8000848:	4b3c      	ldr	r3, [pc, #240]	@ (800093c <i2c1_init+0xf8>)
@@ -884,7 +885,7 @@ void i2c1_byte_read(char saddr, char mem_addr, char* data) {
  800097c:	2b00      	cmp	r3, #0
  800097e:	d0f9      	beq.n	8000974 <i2c1_byte_read+0x2c>
 
-    // Send slave address + Write
+    // Send slave address with write
     I2C1->DR = saddr << 1;
  8000980:	79fb      	ldrb	r3, [r7, #7]
  8000982:	4a2a      	ldr	r2, [pc, #168]	@ (8000a2c <i2c1_byte_read+0xe4>)
@@ -899,8 +900,6 @@ void i2c1_byte_read(char saddr, char mem_addr, char* data) {
  800098e:	f003 0302 	and.w	r3, r3, #2
  8000992:	2b00      	cmp	r3, #0
  8000994:	d0f9      	beq.n	800098a <i2c1_byte_read+0x42>
-
-
 
     // Clear addr flag (by reading SR2)
     temp = I2C1->SR2;
@@ -997,7 +996,6 @@ void i2c1_byte_read(char saddr, char mem_addr, char* data) {
  8000a18:	603a      	str	r2, [r7, #0]
  8000a1a:	b2ca      	uxtb	r2, r1
  8000a1c:	701a      	strb	r2, [r3, #0]
-
 
 }
  8000a1e:	bf00      	nop
